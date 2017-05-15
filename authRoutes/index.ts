@@ -5,4 +5,4 @@ const authRouter = express();
 import userRouter from './users';
 authRouter.use('/users', userRouter);
 
-export {}
+export { authRouter }

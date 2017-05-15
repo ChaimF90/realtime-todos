@@ -14,7 +14,7 @@ router.post('/register', async (req: Request, res: Response) => {
 router.post('/login', async (req: Request, res: Response) => {
     let user = await db.users.loginUser(req.body);
     if(user) {
-        const token = jwt.sign('foobar' ,process.env.AUTH_SCRET, {
+        const token = jwt.sign({userId: user.id}, process.env.AUTH_SECRET, {
             expiresIn: 60*60*24
         });
         res.json({
