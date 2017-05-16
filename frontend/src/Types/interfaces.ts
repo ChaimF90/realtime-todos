@@ -36,10 +36,9 @@ export interface TableProps {
 
 export interface TasksPageState {
     tasks: Array<Task>;
+    hasAccess: boolean;
+    socket: SocketIOClient.Socket;
 }
-
-
-
 
 
 

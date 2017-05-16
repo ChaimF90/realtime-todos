@@ -8,7 +8,7 @@ export default function TasksTable(props: TableProps) {
             <tr key={i}>
                 <td>{t.title}</td>
                 <td>{t.content}</td>
-                <td>{t.inProgress}</td>
+                <td>{t.inProgress ? "YES" : "NO"}</td>
                 <td></td>
             </tr>
         )

@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+
 import { Request, Response, NextFunction } from 'express'
 
 function checkToken(req: Request, res: Response, next: NextFunction) {
@@ -15,6 +16,7 @@ function checkToken(req: Request, res: Response, next: NextFunction) {
     } else {
         res.status(403).send({error: "No token"});
     }
+
 }
 
 export {
