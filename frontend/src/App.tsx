@@ -1,20 +1,33 @@
 import * as React from 'react';
 import './App.css';
+import RegisterPage from './components/register/RegisterPage'
+import LandingPage from './components/Landing/LandingPage';
+import { AppState } from './Types/interfaces';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-const logo = require('./logo.svg');
+class App extends React.Component<{}, AppState> {
+  constructor() {
+    super();
+    this.state = {
+      hasToken: false
+    }
+  }
 
-class App extends React.Component<{}, null> {
+  componentDidMount() {
+    let token = localStorage.getItem('realtimeToken');
+    if (token) {
+      this.setState({ hasToken: true });
+    }
+  }
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <Router>
+        <div className="container">
+          <Route exact path="/register" component={RegisterPage}/>
+          <Route exact path="/" component={LandingPage}/>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      </Router>
     );
   }
 }
