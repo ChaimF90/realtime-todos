@@ -3,7 +3,7 @@ import { RegisterProps } from '../../Types/interfaces';
 import Input from '../GenericComponents/Input';
 import Button from '../GenericComponents/Button';
 
-export default function RegisterForm(props: RegisterProps) {
+export default function AuthForm(props: RegisterProps) {
     return (
         <div>
             <Input 
@@ -20,7 +20,7 @@ export default function RegisterForm(props: RegisterProps) {
             onChange={props.onChange} 
             placeholder="Password" />
             <br />
-            <Button text="Register" type="Primary" />
+            <Button onClick={props.submitForm} text="Register" type="Primary" />
         </div>
     )
 }

@@ -1,31 +1,19 @@
 import * as React from 'react';
 import './App.css';
-import RegisterPage from './components/register/RegisterPage'
+import AuthPage from './components/Auth/AuthPage'
 import LandingPage from './components/Landing/LandingPage';
-import { AppState } from './Types/interfaces';
+import TasksPage from './components/Tasks/TasksPage';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-class App extends React.Component<{}, AppState> {
-  constructor() {
-    super();
-    this.state = {
-      hasToken: false
-    }
-  }
-
-  componentDidMount() {
-    let token = localStorage.getItem('realtimeToken');
-    if (token) {
-      this.setState({ hasToken: true });
-    }
-  }
-
+class App extends React.Component<{}, {}> {
   render() {
     return (
       <Router>
         <div className="container">
-          <Route exact path="/register" component={RegisterPage}/>
+          <Route path="/register" component={AuthPage}/>
+          <Route path="/login" component={AuthPage}/>
           <Route exact path="/" component={LandingPage}/>
+          <Route path="/tasks" component={TasksPage} />
         </div>
       </Router>
     );

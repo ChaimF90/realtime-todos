@@ -2,6 +2,7 @@ require('dotenv').config();
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 const app = express();
+import { checkToken } from './tokenCheck';
 
 import { authRouter } from './authRoutes';
 import { router } from './routes';
@@ -10,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/auth', authRouter);
-app.use('/api', router);
+app.use('/api', checkToken, router);
 
 app.get('/', (req, res) => {
     res.json('Testing');

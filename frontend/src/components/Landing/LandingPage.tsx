@@ -1,13 +1,36 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { LandingState } from '../../Types/interfaces';
+import Welcome from './Welcome';
 
-export default function LandingPage() {
-    return (
-        <div>
-            <h1>Welcome!</h1>
-            <Link to={"/login"}>Login</Link>
-            <br />
-            <Link to={'/register'}>Register</Link>
-        </div>
-    )
+class LandingPage extends React.Component<any, LandingState> {
+    constructor() {
+        super();
+        this.state = {
+            hasToken: false
+        }
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('tasksToken');
+        if(token) {
+            this.setState({hasToken: true});
+        }
+    }
+
+    render() {
+        let renderThis;
+        if(this.state.hasToken) {
+            renderThis = <Redirect to="/tasks" />
+        } else {
+            renderThis = <Welcome />
+        }
+        return (
+            <div>
+                {renderThis}
+            </div>
+        )
+    }
 }
+
+export default LandingPage;

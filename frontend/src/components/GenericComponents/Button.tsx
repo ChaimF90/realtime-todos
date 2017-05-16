@@ -3,6 +3,6 @@ import { ButtonTypeProps } from '../../Types/interfaces';
 
 export default function Button(props: ButtonTypeProps) {
     return (
-        <button>{props.text}</button>
+        <button onClick={props.onClick}>{props.text}</button>
     )
 }
