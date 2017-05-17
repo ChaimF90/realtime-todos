@@ -32,12 +32,15 @@ export interface LandingState {
 
 export interface TableProps {
     tasks: Array<Task>;
+    updateProgress: (id: number) => void;
+    completeTask: (id: number) => void;
+    currentTask: number;
 }
 
 export interface TasksPageState {
     tasks: Array<Task>;
     hasAccess: boolean;
-    socket: SocketIOClient.Socket;
+    currentTask: number;
 }
 
 

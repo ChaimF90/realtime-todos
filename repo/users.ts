@@ -18,7 +18,19 @@ async function loginUser(login: Login) :Promise<User>{
     }
 }
 
+async function assignTaskToUser(userId: number, taskId: number) {
+    return await knex('users').where('id', userId).update({currentTask: taskId});
+}
+
+async function getUserById(id: number) :Promise<User> {
+    return await knex('users').where('id', id).select().first();
+}
+
+
 export {
     registerUser, 
-    loginUser
+    loginUser,
+    assignTaskToUser,
+    getUserById
 }
+

@@ -17,3 +17,8 @@ export interface Task {
     completed: boolean;
     inProgress: boolean;
 }
+
+export interface SocketResponse {
+    tasks: Array<Task>;
+    currentTask: number;
+}

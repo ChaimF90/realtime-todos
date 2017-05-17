@@ -10,6 +10,7 @@ function checkToken(req: Request, res: Response, next: NextFunction) {
                 res.status(403).send({error: "Token is no longer valid"});
                 return;
             } else {
+                req.userId = decoded.userId;
                 next();
             }
         });
@@ -19,6 +20,17 @@ function checkToken(req: Request, res: Response, next: NextFunction) {
 
 }
 
+function addUserIdToSocket(token: string, cb: (dec: any) => void) {
+    jwt.verify(token, process.env.AUTH_SECRET, (err: any, decoded: any) => {
+        if(err) {
+            throw new err
+        } else {
+            cb(decoded)
+        }
+    })
+}
+
 export {
-    checkToken
+    checkToken,
+    addUserIdToSocket
 };
