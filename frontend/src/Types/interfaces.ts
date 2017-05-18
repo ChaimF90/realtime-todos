@@ -18,6 +18,10 @@ export interface RegisterProps {
     user: User;
     onChange: (e: any) => void;
     submitForm: () => void;
+    headerText: string;
+    linkText: string;
+    buttonText: string;
+    linkUrl: string;
 }
 
 export interface ButtonTypeProps {
@@ -42,6 +46,7 @@ export interface TasksPageState {
     hasAccess: boolean;
     currentTask: number;
     task: Task;
+    showModal: boolean;
 }
 
 export interface NewTaskProps {
@@ -49,6 +54,7 @@ export interface NewTaskProps {
     task: Task;
     changeHandler: (e: any) => void;
     saveTask: () => void;
+    cancel: () => void;
 }
 
 

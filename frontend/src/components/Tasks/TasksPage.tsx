@@ -20,13 +20,15 @@ class TasksPage extends React.Component<any, TasksPageState> {
                 content: '',
                 completed: false,
                 inProgress: false
-            }
+            },
+            showModal: false
         }
         this.updateTaskProgress = this.updateTaskProgress.bind(this);
         this.completeTask = this.completeTask.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
         this.addNewtask = this.addNewtask.bind(this);
         this.clearForm = this.clearForm.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     async componentDidMount() {
@@ -51,10 +53,10 @@ class TasksPage extends React.Component<any, TasksPageState> {
         this.socket = io.connect('/');
         this.socket.emit('retrieve token', token);
         this.socket.on('all tasks', (response: SocketResponse) => {
-            this.setState({ tasks: response.tasks});
+            this.setState({ tasks: response.tasks });
         })
         this.socket.on('task assigned', (currentTask: number) => {
-            this.setState({currentTask});
+            this.setState({ currentTask });
         })
         this.socket.on('task assigned', (currentTask: number) => {
             this.setState({ currentTask });
@@ -72,7 +74,7 @@ class TasksPage extends React.Component<any, TasksPageState> {
     changeHandler(e: any) {
         let task = this.state.task;
         task[e.target.name] = e.target.value;
-        this.setState({task});
+        this.setState({ task });
     }
 
     addNewtask() {
@@ -84,7 +86,11 @@ class TasksPage extends React.Component<any, TasksPageState> {
         let task = this.state.task;
         task.title = '';
         task.content = '';
-        this.setState({task});
+        this.setState({ task, showModal: false });
+    }
+
+    toggleModal() {
+        this.setState({showModal: !this.state.showModal});
     }
 
     render() {
@@ -96,17 +102,23 @@ class TasksPage extends React.Component<any, TasksPageState> {
                     updateProgress={this.updateTaskProgress}
                     tasks={this.state.tasks}
                     currentTask={this.state.currentTask} />
+
+        }
+        let modal;
+        if (this.state.showModal) {
+            modal =
+                <NewTaskModal
+                    cancel={this.toggleModal}
+                    saveTask={this.addNewtask}
+                    changeHandler={this.changeHandler}
+                    task={this.state.task}
+                    socket={this.socket} />
         }
         return (
-            <div className="container">
-                <button className="btn btn-primary">Add Task</button>
+            <div>
+                {modal}
+                <button onClick={this.toggleModal} className="btn btn-default">Add Task</button>
                 {table}
-                <br />
-                <NewTaskModal
-                saveTask={this.addNewtask} 
-                changeHandler={this.changeHandler}
-                task={this.state.task} 
-                socket={this.socket}/>
             </div>
         )
     }

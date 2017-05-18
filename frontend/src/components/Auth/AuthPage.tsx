@@ -50,12 +50,31 @@ class AuthPage extends React.Component<any, RegisterState > {
     }
 
     render() {
+        let authForm;
+        if(this.state.isRegister) {
+            authForm = 
+            <AuthForm
+            submitForm={this.submitForm}
+            user={this.state.user}
+            onChange={this.changeHandler}
+            buttonText="Register"
+            headerText="Create Account"
+            linkText="Login"
+            linkUrl="/login" />
+        } else {
+            authForm = 
+            <AuthForm
+            submitForm={this.submitForm}
+            user={this.state.user}
+            onChange={this.changeHandler}
+            buttonText="Login"
+            headerText="Login"
+            linkText="Register"
+            linkUrl="/register" />
+        }
         return (
-            <div className="register">
-                <AuthForm
-                submitForm={this.submitForm} 
-                user={this.state.user} 
-                onChange={this.changeHandler} />
+            <div>
+                {authForm}
             </div>
         )
     }

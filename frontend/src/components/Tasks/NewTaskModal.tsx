@@ -27,7 +27,8 @@ export default function NewTaskModal(props: NewTaskProps) {
                 id="content" 
                 placeholder="Content" />
             </div>
-            <button onClick={props.saveTask} type="submit" className="btn btn-default">Submit</button>
+            <button onClick={props.saveTask} type="submit" className="btn btn-primary">Submit</button>
+            <button onClick={props.cancel} type="submit" className="btn btn-default">cancel</button>
         </div>
     )
 }

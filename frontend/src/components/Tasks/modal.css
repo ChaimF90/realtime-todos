@@ -1,7 +1,11 @@
 .custom-modal {
-    position: absolute;
-    height: 400px;
-    width: 400px;
-    margin: auto;
-    border: 1px solid grey;
+    background-color: lightgrey;
+    border: 2px solid dimgray;
+    border-radius: 5px;
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    height: 300px;
+    width: 300px;
+    transform: translate(-50%, -50%);
 }
