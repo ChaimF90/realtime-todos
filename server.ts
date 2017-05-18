@@ -7,6 +7,7 @@ const server = http.createServer(app);
 import * as socket from 'socket.io';
 const io = socket(server);
 import * as db from './repo';
+import * as helpers from './socketHelpers/socketHelperFunction';
 import { Task } from './appTypes/interfaces';
 
 import { checkToken, addUserIdToSocket } from './tokenCheck';
@@ -24,18 +25,11 @@ io.on('connection', socket => {
     socket.on('retrieve token', (token: string) => {
         addUserIdToSocket(token, async decoded =>  {
             socket.userId = decoded.userId
-            let user = await db.users.getUserById(socket.userId);
-            socket.emit('current task', user.currentTask);
-            socket.emit('task assigned', user.currentTask);
+            helpers.assignTaskToUser(socket);
         });
     })
     socket.on('update progress', async (id: number) => {
-        await db.tasks.setTaskProgress(id);
-        await db.users.assignTaskToUser(socket.userId, id);
-        let user = await db.users.getUserById(socket.userId);
-        let tasks = await db.tasks.getAllTasks();
-        io.sockets.emit('all tasks', {tasks});
-        socket.emit('task assigned', user.currentTask);
+        await helpers.updateTaskProgress(socket, id, io);
     })
     socket.on('complete task', async (id: number) => {
         await db.tasks.completeTask(id);

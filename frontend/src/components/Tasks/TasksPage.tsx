@@ -58,9 +58,6 @@ class TasksPage extends React.Component<any, TasksPageState> {
         this.socket.on('task assigned', (currentTask: number) => {
             this.setState({ currentTask });
         })
-        this.socket.on('task assigned', (currentTask: number) => {
-            this.setState({ currentTask });
-        })
     }
 
     updateTaskProgress(id: number) {
