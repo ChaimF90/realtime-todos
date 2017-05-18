@@ -41,6 +41,14 @@ export interface TasksPageState {
     tasks: Array<Task>;
     hasAccess: boolean;
     currentTask: number;
+    task: Task;
+}
+
+export interface NewTaskProps {
+    socket: any;
+    task: Task;
+    changeHandler: (e: any) => void;
+    saveTask: () => void;
 }
 
 

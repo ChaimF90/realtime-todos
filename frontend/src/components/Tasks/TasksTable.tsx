@@ -8,7 +8,9 @@ export default function TasksTable(props: TableProps) {
         if(props.currentTask === t.id) {
             button = <button onClick={() => props.completeTask(t.id as number)}>I am done</button>
         } else {
-            button = <button onClick={() => props.updateProgress(t.id as number)}>I'll do it</button>
+            if(!t.inProgress) {
+                 button = <button onClick={() => props.updateProgress(t.id as number)}>I'll do it</button>
+            }
         }
         return (
             <tr key={i}>

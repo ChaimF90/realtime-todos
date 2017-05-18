@@ -5,6 +5,7 @@ import { TasksPageState } from '../../Types/interfaces';
 import axios from 'axios';
 import * as io from 'socket.io-client';
 import { Task, SocketResponse } from '../../../../appTypes/interfaces';
+import NewTaskModal from './NewTaskModal';
 
 class TasksPage extends React.Component<any, TasksPageState> {
     private socket: any = {};
@@ -13,10 +14,19 @@ class TasksPage extends React.Component<any, TasksPageState> {
         this.state = {
             tasks: [],
             hasAccess: false,
-            currentTask: 0
+            currentTask: 0,
+            task: {
+                title: '',
+                content: '',
+                completed: false,
+                inProgress: false
+            }
         }
         this.updateTaskProgress = this.updateTaskProgress.bind(this);
         this.completeTask = this.completeTask.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
+        this.addNewtask = this.addNewtask.bind(this);
+        this.clearForm = this.clearForm.bind(this);
     }
 
     async componentDidMount() {
@@ -41,9 +51,12 @@ class TasksPage extends React.Component<any, TasksPageState> {
         this.socket = io.connect('/');
         this.socket.emit('retrieve token', token);
         this.socket.on('all tasks', (response: SocketResponse) => {
-            this.setState({ tasks: response.tasks, currentTask: response.currentTask });
+            this.setState({ tasks: response.tasks});
         })
-        this.socket.on('current task', (currentTask: number) => {
+        this.socket.on('task assigned', (currentTask: number) => {
+            this.setState({currentTask});
+        })
+        this.socket.on('task assigned', (currentTask: number) => {
             this.setState({ currentTask });
         })
     }
@@ -54,6 +67,24 @@ class TasksPage extends React.Component<any, TasksPageState> {
 
     completeTask(id: number) {
         this.socket.emit('complete task', id);
+    }
+
+    changeHandler(e: any) {
+        let task = this.state.task;
+        task[e.target.name] = e.target.value;
+        this.setState({task});
+    }
+
+    addNewtask() {
+        this.socket.emit('new task', Object.assign({}, this.state.task));
+        this.clearForm();
+    }
+
+    clearForm() {
+        let task = this.state.task;
+        task.title = '';
+        task.content = '';
+        this.setState({task});
     }
 
     render() {
@@ -68,7 +99,14 @@ class TasksPage extends React.Component<any, TasksPageState> {
         }
         return (
             <div className="container">
+                <button className="btn btn-primary">Add Task</button>
                 {table}
+                <br />
+                <NewTaskModal
+                saveTask={this.addNewtask} 
+                changeHandler={this.changeHandler}
+                task={this.state.task} 
+                socket={this.socket}/>
             </div>
         )
     }
